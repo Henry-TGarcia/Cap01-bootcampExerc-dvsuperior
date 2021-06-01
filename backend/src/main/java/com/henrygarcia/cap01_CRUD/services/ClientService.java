@@ -1,6 +1,7 @@
 package com.henrygarcia.cap01_CRUD.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,13 @@ public class ClientService {
 		List<Client> lista = repository.findAll();
 		
 		return lista.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public ClientDTO findById(Long id) {
+		Optional<Client> opt = repository.findById(id);
+		Client entity = opt.get();
+		return new ClientDTO(entity);
+		
 	}
 }
